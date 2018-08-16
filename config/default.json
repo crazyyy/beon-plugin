@@ -1,9 +1,9 @@
 {
-  "domain": "wp-framework.dev",
-  "theme": "wp-framework",
+  "domain": "beon-plugin.local",
+  "theme": "beon-payment",
   "path": {
     "base": {
-      "src":"assets/",
+      "src": "assets/",
       "dest": "./html/",
       "desthtml": "./html/**/*.{html,htm,php}"
     },

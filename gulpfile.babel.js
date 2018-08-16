@@ -19,13 +19,13 @@ const plugins = require("gulp-load-plugins")({
 });
 
 if (htmlOWp === false) {
-  config.path.base.wp = './wordpress/wp-content/themes/' + config.theme + '/';
+  config.path.base.wp = './wordpress/wp-content/plugins/' + config.theme + '/';
   ChangeBasePath(config);
   config.path.base.dest = config.path.base.wp;
 }
 
 // Compile and automatically prefix stylesheets
-gulp.task('scss', function() {
+gulp.task('scss', function () {
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp
     .src(config.path.styles.srcfiles)
@@ -48,7 +48,7 @@ gulp.task('scss', function() {
 });
 
 // postcss autoprefix
-gulp.task('postcss', function() {
+gulp.task('postcss', function () {
   var processors = [cssnext({
       browsers: [
         'ie >= 8',
@@ -89,12 +89,12 @@ gulp.task('postcss', function() {
     }));
 });
 
-gulp.task('styles', function(callback) {
+gulp.task('styles', function (callback) {
   runSequence(['scss'], ['postcss'], callback);
 });
 
 // Optimize images
-gulp.task('images', function() {
+gulp.task('images', function () {
   return gulp
     .src(config.path.images.srcimg)
     .pipe(plugins.newer(config.path.images.dest))
@@ -122,14 +122,14 @@ gulp.task('images', function() {
 });
 
 // Generate sprites
-gulp.task('sprite', function() {
+gulp.task('sprite', function () {
   var spriteData = gulp
     .src(config.path.images.sprite + '*.png')
     .pipe(plugins.spritesmith({
       imgName: config.sprite.imgName,
       cssName: config.sprite.cssName,
       imgPath: config.sprite.imgPath,
-      cssVarMap: function(sprite) {
+      cssVarMap: function (sprite) {
         sprite.name = 'sprite-' + sprite.name;
       }
     }))
@@ -142,7 +142,7 @@ gulp.task('sprite', function() {
 });
 
 // Copy web fonts to dist
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
   return gulp
     .src(config.path.fonts.src)
     .pipe(plugins.newer(config.path.fonts.dest))
@@ -154,7 +154,7 @@ gulp.task('fonts', function() {
 });
 
 // Optimize script
-gulp.task('scripts', function() {
+gulp.task('scripts', function () {
   return gulp
     .src(config.path.scripts.src)
     .pipe(plugins.newer(config.path.scripts.dest))
@@ -172,7 +172,7 @@ gulp.task('scripts', function() {
 });
 
 // Browser Sync
-gulp.task('browserSync', function() {
+gulp.task('browserSync', function () {
   let args;
   if (htmlOWp === true) {
     args = {
@@ -194,7 +194,7 @@ gulp.task('browserSync', function() {
 });
 
 // watch for changes
-gulp.task('watch', function() {
+gulp.task('watch', function () {
 
   gulp.watch([config.path.base.desthtml]).on('change', reload);
 
@@ -211,7 +211,7 @@ gulp.task('watch', function() {
 });
 
 // Consolidated dev phase task
-gulp.task('serve', function(callback) {
+gulp.task('serve', function (callback) {
   runSequence(
     ['sprite', 'images'], ['scripts'], ['scss', 'fonts'], ['postcss'], ['browserSync', 'watch'],
     callback
